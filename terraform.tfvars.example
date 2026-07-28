@@ -1,0 +1,5 @@
+# Copy this file to terraform.tfvars and update the values as needed.
+# Do not commit terraform.tfvars if it contains environment-specific
+# or sensitive information.
+
+aws_region = "us-west-2"
