@@ -50,3 +50,12 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
   to_port                      = 80
   ip_protocol                  = "tcp"
 }
+
+# Restrict the VPC default security group
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.name_prefix}-default-sg"
+  }
+}
