@@ -1,4 +1,5 @@
 
+# Create the main VPC
 resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -8,8 +9,6 @@ resource "aws_vpc" "main" {
     Name = "${local.name_prefix}-vpc"
   }
 }
-
-
 
 # Create two public subnets
 resource "aws_subnet" "public" {
@@ -21,7 +20,8 @@ resource "aws_subnet" "public" {
     aws_vpc.main.cidr_block, 8, count.index + 1
   )
 
-availability_zone_id = var.availability_zone_ids[count.index]
+  availability_zone_id = var.availability_zone_ids[count.index]
+
   tags = {
     Name = "${local.name_prefix}-public-${count.index + 1}"
   }
@@ -67,8 +67,7 @@ resource "aws_route_table" "public" {
   }
 }
 
-# Associate both public subnets
-# with the public route table
+# Associate public subnets with the public route table
 resource "aws_route_table_association" "public" {
   count = 2
 
@@ -76,3 +75,19 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
+# Private route table
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.name_prefix}-private-rt"
+  }
+}
+
+# Associate private subnets with the private route table
+resource "aws_route_table_association" "private" {
+  count = 2
+
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
