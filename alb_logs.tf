@@ -19,3 +19,12 @@ resource "aws_s3_bucket_public_access_block" "alb_logs" {
   block_public_policy     = true
   restrict_public_buckets = true
 }
+
+# Enable versioning for ALB access logs
+resource "aws_s3_bucket_versioning" "alb_logs" {
+  bucket = aws_s3_bucket.alb_logs.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
