@@ -41,3 +41,10 @@ resource "aws_lb_target_group" "app" {
     Name = "${local.name_prefix}-tg"
   }
 }
+
+# Register the private EC2 instance with the ALB target group
+resource "aws_lb_target_group_attachment" "app" {
+  target_group_arn = aws_lb_target_group.app.arn
+  target_id        = aws_instance.app.id
+  port             = 80
+}
