@@ -67,3 +67,33 @@ resource "aws_s3_bucket_lifecycle_configuration" "alb_logs" {
 
   depends_on = [aws_s3_bucket_versioning.alb_logs]
 }
+
+# Allow Elastic Load Balancing to deliver access logs
+data "aws_iam_policy_document" "alb_logs" {
+  statement {
+    sid    = "AllowALBLogDelivery"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
+    }
+
+    actions = ["s3:PutObject"]
+
+    resources = [
+      "${aws_s3_bucket.alb_logs.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
+    ]
+  }
+}
+
+# Retrieve the AWS account ID
+data "aws_caller_identity" "current" {}
+
+# Attach the policy to the S3 bucket
+resource "aws_s3_bucket_policy" "alb_logs" {
+  bucket = aws_s3_bucket.alb_logs.id
+  policy = data.aws_iam_policy_document.alb_logs.json
+
+  depends_on = [aws_s3_bucket_public_access_block.alb_logs]
+}
