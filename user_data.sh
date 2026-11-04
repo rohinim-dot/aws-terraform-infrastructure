@@ -4,7 +4,11 @@ set -euo pipefail
 
 mkdir -p /opt/webapp
 
+
 cat > /opt/webapp/index.html <<'EOF'
+${html_content}
+EOF
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
