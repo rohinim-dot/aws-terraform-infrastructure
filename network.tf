@@ -10,10 +10,6 @@ resource "aws_vpc" "main" {
 }
 
 
-# Get available AWS Availability Zones
-data "aws_availability_zones" "available" {
-  state = "available"
-}
 
 # Create two public subnets
 resource "aws_subnet" "public" {
