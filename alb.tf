@@ -14,6 +14,12 @@ resource "aws_lb" "app" {
 
   enable_deletion_protection = false
 
+  access_logs {
+    bucket  = aws_s3_bucket.alb_logs.id
+    enabled = true
+  }
+
+
   tags = {
     Name = "${local.name_prefix}-alb"
   }
