@@ -21,8 +21,7 @@ resource "aws_subnet" "public" {
     aws_vpc.main.cidr_block, 8, count.index + 1
   )
 
-  availability_zone = data.aws_availability_zones.available.names[count.index]
-
+availability_zone_id = var.availability_zone_ids[count.index]
   tags = {
     Name = "${local.name_prefix}-public-${count.index + 1}"
   }
@@ -38,7 +37,7 @@ resource "aws_subnet" "private" {
     aws_vpc.main.cidr_block, 8, count.index + 11
   )
 
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone_id = var.availability_zone_ids[count.index]
 
   tags = {
     Name = "${local.name_prefix}-private-${count.index + 1}"
