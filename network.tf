@@ -48,3 +48,12 @@ resource "aws_subnet" "private" {
     Name = "${local.name_prefix}-private-${count.index + 1}"
   }
 }
+
+# Internet Gateway for the VPC
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.name_prefix}-igw"
+  }
+}
