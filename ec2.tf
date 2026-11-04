@@ -4,7 +4,10 @@ resource "aws_instance" "app" {
   ami           = data.aws_ami.amazon_linux_2023.id
   instance_type = "t3.micro"
   ebs_optimized = true
-  user_data     = file("${path.module}/user_data.sh")
+
+user_data = templatefile("${path.module}/user_data.sh", {
+  html_content = file("${path.module}/index.html")
+})
 
   subnet_id = aws_subnet.private[0].id
 
