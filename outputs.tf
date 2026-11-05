@@ -35,3 +35,9 @@ output "application_url" {
   description = "HTTP URL of the web application"
   value       = "http://${aws_lb.app.dns_name}"
 }
+
+# Private IP address of the application EC2 instance
+output "app_private_ip" {
+  description = "Private IP address of the application EC2 instance"
+  value       = aws_instance.app.private_ip
+}
