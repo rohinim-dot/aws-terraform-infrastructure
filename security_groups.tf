@@ -82,3 +82,15 @@ resource "aws_vpc_security_group_ingress_rule" "ssm_https" {
 
   description = "Allow HTTPS from application EC2 to SSM endpoints"
 }
+
+# Allow application EC2 to connect to SSM endpoints
+resource "aws_vpc_security_group_egress_rule" "app_to_ssm" {
+  security_group_id            = aws_security_group.app.id
+  referenced_security_group_id = aws_security_group.ssm_endpoints.id
+
+  from_port   = 443
+  to_port     = 443
+  ip_protocol = "tcp"
+
+  description = "Allow HTTPS from application EC2 to SSM endpoints"
+}
