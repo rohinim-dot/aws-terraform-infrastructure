@@ -29,3 +29,9 @@ output "alb_dns_name" {
   description = "DNS name of the public Application Load Balancer"
   value       = aws_lb.app.dns_name
 }
+
+# URL for accessing the web application
+output "application_url" {
+  description = "HTTP URL of the web application"
+  value       = "http://${aws_lb.app.dns_name}"
+}
