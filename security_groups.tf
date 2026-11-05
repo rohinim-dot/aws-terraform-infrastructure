@@ -59,3 +59,14 @@ resource "aws_default_security_group" "default" {
     Name = "${local.name_prefix}-default-sg"
   }
 }
+
+# Security group for Systems Manager VPC endpoints
+resource "aws_security_group" "ssm_endpoints" {
+  name        = "${local.name_prefix}-ssm-endpoints-sg"
+  description = "Security group for private SSM endpoints"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.name_prefix}-ssm-endpoints-sg"
+  }
+}
