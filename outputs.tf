@@ -17,3 +17,9 @@ output "name_prefix" {
   description = "Standard naming prefix used for AWS resources."
   value       = local.name_prefix
 }
+
+# EC2 instance ID for troubleshooting and SSM access
+output "app_instance_id" {
+  description = "ID of the private application EC2 instance"
+  value       = aws_instance.app.id
+}
