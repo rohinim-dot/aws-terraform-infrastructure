@@ -2,6 +2,10 @@
 #!/bin/bash
 set -euo pipefail
 
+# Send startup script output to a dedicated troubleshooting log
+exec > >(tee -a /var/log/webapp-bootstrap.log) 2>&1
+
+
 # Verify Python 3 is available before configuring the web service
 if ! command -v /usr/bin/python3 >/dev/null 2>&1; then
   echo "ERROR: Python 3 is not installed at /usr/bin/python3" >&2
