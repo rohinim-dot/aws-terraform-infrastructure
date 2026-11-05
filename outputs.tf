@@ -23,3 +23,9 @@ output "app_instance_id" {
   description = "ID of the private application EC2 instance"
   value       = aws_instance.app.id
 }
+
+# DNS name of the Application Load Balancer
+output "alb_dns_name" {
+  description = "DNS name of the public Application Load Balancer"
+  value       = aws_lb.app.dns_name
+}
